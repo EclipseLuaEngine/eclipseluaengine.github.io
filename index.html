@@ -5,15 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eclipse Lua Engine - Documentation</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/gh/MarketingPipeline/Markdown-Tag/markdown-tag.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        slate: {
-                            950: '#020617',
+                        dark: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9', 
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617'
                         }
                     }
                 }
@@ -21,160 +30,239 @@
         }
     </script>
     <style>
+        /* Dark professional theme */
+        body {
+            background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+        }
+        
         /* Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: rgb(15 23 42);
+            background: #0f172a;
         }
         ::-webkit-scrollbar-thumb {
-            background: rgb(71 85 105);
+            background: #334155;
             border-radius: 3px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: rgb(100 116 139);
+            background: #475569;
         }
 
-        /* Markdown styles */
-        .prose {
-            color: rgb(226 232 240);
-            max-width: none;
+        /* Glass morphism effects */
+        .glass {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(51, 65, 85, 0.5);
         }
-        .prose h1 {
-            color: rgb(248 250 252);
-            font-weight: 800;
-            font-size: 2.25rem;
-            line-height: 2.5rem;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid rgb(51 65 85);
+
+        /* Professional cards */
+        .card {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            border-color: #64748b;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Navigation items */
+        .nav-item {
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-item:hover {
+            background: rgba(51, 65, 85, 0.3);
+            border-left-color: #64748b;
+        }
+        
+        .nav-item.active {
+            background: rgba(100, 116, 139, 0.2);
+            border-left-color: #94a3b8;
+            color: #f1f5f9;
+        }
+
+        /* Search styling */
+        .search-container {
+            position: relative;
+        }
+        
+        .search-results {
+            background: #0f172a;
+            border: 1px solid #334155;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Content styling */
+        .content h1 {
+            color: #f8fafc;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #334155;
             padding-bottom: 1rem;
         }
-        .prose h2 {
-            color: rgb(241 245 249);
-            font-weight: 700;
-            font-size: 1.875rem;
-            line-height: 2.25rem;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-        }
-        .prose h3 {
-            color: rgb(226 232 240);
+        
+        .content h2 {
+            color: #e2e8f0;
+            font-size: 2rem;
             font-weight: 600;
+            margin: 2rem 0 1rem 0;
+        }
+        
+        .content h3 {
+            color: #cbd5e1;
             font-size: 1.5rem;
-            line-height: 2rem;
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
+            font-weight: 500;
+            margin: 1.5rem 0 1rem 0;
         }
-        .prose p {
+        
+        .content p {
+            color: #94a3b8;
+            line-height: 1.7;
             margin-bottom: 1rem;
-            line-height: 1.75;
         }
-        .prose ul, .prose ol {
+        
+        .content ul, .content ol {
+            color: #94a3b8;
             margin: 1rem 0;
             padding-left: 1.5rem;
         }
-        .prose li {
+        
+        .content li {
             margin: 0.5rem 0;
         }
-        .prose code {
-            background-color: rgb(30 41 59);
-            color: rgb(148 163 184);
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.375rem;
-            font-size: 0.875rem;
-            font-weight: 600;
+        
+        .content code {
+            background: #1e293b;
+            color: #64748b;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #334155;
         }
-        .prose pre {
-            background-color: rgb(15 23 42);
-            border: 1px solid rgb(51 65 85);
+        
+        .content pre {
+            background: #020617;
+            border: 1px solid #334155;
             border-radius: 0.5rem;
             padding: 1.5rem;
             margin: 1.5rem 0;
             overflow-x: auto;
         }
-        .prose pre code {
+        
+        .content pre code {
             background: transparent;
-            color: rgb(226 232 240);
+            color: #cbd5e1;
+            border: none;
             padding: 0;
-            font-weight: normal;
         }
-        .prose table {
+        
+        .content table {
             width: 100%;
             border-collapse: collapse;
             margin: 1.5rem 0;
-            background-color: rgb(30 41 59);
+            background: #1e293b;
             border-radius: 0.5rem;
             overflow: hidden;
+            border: 1px solid #334155;
         }
-        .prose th {
-            background-color: rgb(51 65 85);
-            color: rgb(248 250 252);
-            font-weight: 600;
-            padding: 0.75rem 1rem;
+        
+        .content th {
+            background: #334155;
+            color: #f1f5f9;
+            padding: 1rem;
             text-align: left;
-            border-bottom: 1px solid rgb(71 85 105);
+            font-weight: 600;
+            border-bottom: 1px solid #475569;
         }
-        .prose td {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid rgb(51 65 85);
+        
+        .content td {
+            padding: 1rem;
+            border-bottom: 1px solid #334155;
+            color: #94a3b8;
         }
-        .prose blockquote {
-            border-left: 4px solid rgb(59 130 246);
+        
+        .content blockquote {
+            border-left: 4px solid #64748b;
             padding-left: 1rem;
             margin: 1.5rem 0;
-            color: rgb(148 163 184);
+            color: #64748b;
             font-style: italic;
+            background: rgba(30, 41, 59, 0.3);
+            padding: 1rem 1rem 1rem 2rem;
+            border-radius: 0 0.5rem 0.5rem 0;
         }
-        .prose a {
-            color: rgb(59 130 246);
+        
+        .content a {
+            color: #94a3b8;
             text-decoration: underline;
+            transition: color 0.2s ease;
         }
-        .prose a:hover {
-            color: rgb(96 165 250);
+        
+        .content a:hover {
+            color: #cbd5e1;
         }
+
+        /* Loading states */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* Professional accent colors */
+        .accent-blue { color: #64748b; }
+        .accent-light { color: #94a3b8; }
+        .accent-lighter { color: #cbd5e1; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-200 antialiased">
+<body class="bg-dark-950 text-gray-300 min-h-screen">
     <!-- Header -->
-    <header class="sticky top-0 z-50 w-full border-b border-slate-800 bg-slate-950/95 backdrop-blur supports-[backdrop-filter]:bg-slate-950/60">
-        <div class="container flex h-16 items-center justify-between px-4">
-            <div class="flex items-center space-x-4">
-                <div class="flex items-center space-x-2">
-                    <span class="text-2xl">🌙</span>
-                    <span class="text-xl font-bold text-white">Eclipse</span>
+    <header class="sticky top-0 z-50 glass">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-gradient-to-br from-dark-600 to-dark-700 rounded-lg flex items-center justify-center">
+                        <span class="text-lg font-bold text-gray-200">🌙</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-white">Eclipse</h1>
+                        <p class="text-xs text-gray-400">Lua Engine Documentation</p>
+                    </div>
                 </div>
-                <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
-                    <button onclick="showHome()" class="text-slate-400 hover:text-slate-200 transition-colors">Home</button>
-                    <span class="text-slate-600">|</span>
-                    <span class="text-slate-400">Documentation</span>
-                </nav>
-            </div>
-            
-            <!-- Search -->
-            <div class="relative w-full max-w-sm">
-                <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-                <input 
-                    type="text" 
-                    id="searchInput"
-                    placeholder="Search methods..." 
-                    class="w-full h-10 pl-10 pr-4 text-sm bg-slate-900 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-slate-400"
-                />
-                <div id="searchResults" class="absolute top-full left-0 right-0 mt-2 bg-slate-900 border border-slate-700 rounded-lg shadow-xl max-h-96 overflow-y-auto hidden z-50">
+                
+                <!-- Search -->
+                <div class="search-container w-full max-w-md">
+                    <div class="relative">
+                        <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <input 
+                            type="text" 
+                            id="searchInput"
+                            placeholder="Search methods..." 
+                            class="w-full pl-10 pr-4 py-2 bg-dark-800 border border-dark-700 rounded-lg text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-dark-600 focus:border-transparent"
+                        />
+                    </div>
+                    <div id="searchResults" class="absolute top-full left-0 right-0 mt-2 search-results rounded-lg max-h-80 overflow-y-auto hidden z-50">
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <div class="flex min-h-screen">
+    <div class="flex max-w-7xl mx-auto">
         <!-- Sidebar -->
-        <aside class="w-72 border-r border-slate-800 bg-slate-950">
-            <div class="sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto p-6">
+        <aside class="w-80 min-h-screen glass border-r border-dark-700">
+            <div class="p-6">
                 <!-- Back Button -->
                 <div id="backButton" class="hidden mb-6">
-                    <button onclick="showHome()" class="flex items-center text-sm text-slate-400 hover:text-slate-200 transition-colors">
+                    <button onclick="showHome()" class="flex items-center text-gray-400 hover:text-gray-200 transition-colors">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                         </svg>
@@ -186,17 +274,20 @@
                 <nav>
                     <!-- Classes List -->
                     <div id="classesList">
-                        <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">API Reference</h3>
+                        <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">API Classes</h3>
                         <div id="classItems" class="space-y-1">
-                            <!-- Classes will be loaded here -->
+                            <div class="animate-pulse">
+                                <div class="h-4 bg-dark-700 rounded mb-2"></div>
+                                <div class="h-4 bg-dark-700 rounded mb-2"></div>
+                                <div class="h-4 bg-dark-700 rounded"></div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Methods List -->
                     <div id="methodsList" class="hidden">
-                        <h3 id="methodsTitle" class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3"></h3>
+                        <h3 id="methodsTitle" class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4"></h3>
                         <div id="methodItems" class="space-y-1">
-                            <!-- Methods will be loaded here -->
                         </div>
                     </div>
                 </nav>
@@ -204,80 +295,86 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 min-w-0">
-            <div class="max-w-4xl mx-auto px-6 py-8">
-                <!-- Home Content -->
-                <div id="homeContent">
-                    <div class="mb-8">
-                        <h1 class="text-4xl font-bold tracking-tight text-white sm:text-5xl mb-4">
-                            Eclipse Lua Engine
-                        </h1>
-                        <p class="text-xl text-slate-400 max-w-3xl">
-                            A high-performance Lua scripting engine for AzerothCore with advanced caching, 
-                            multi-state architecture, and modern development features.
-                        </p>
+        <main class="flex-1 p-8">
+            <!-- Home Content -->
+            <div id="homeContent">
+                <div class="mb-12">
+                    <h1 class="text-5xl font-bold text-white mb-6">
+                        Eclipse Lua Engine
+                    </h1>
+                    <p class="text-xl text-gray-400 max-w-4xl leading-relaxed">
+                        High-performance Lua scripting engine for AzerothCore featuring advanced caching, 
+                        multi-state architecture, and comprehensive API bindings for modern WoW server development.
+                    </p>
+                </div>
+
+                <!-- Features Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                    <div class="card rounded-xl p-6">
+                        <div class="w-12 h-12 bg-dark-700 rounded-lg flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white mb-2">High Performance</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">25% faster execution with LuaJIT support and optimized Sol2 configuration for maximum throughput.</p>
                     </div>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
-                        <div class="bg-slate-900 border border-slate-800 rounded-lg p-6">
-                            <div class="flex items-center mb-4">
-                                <div class="bg-blue-500/10 rounded-lg p-3 mr-3">
-                                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                    </svg>
-                                </div>
-                                <h3 class="text-lg font-semibold text-white">High Performance</h3>
-                            </div>
-                            <p class="text-slate-400 text-sm">25% faster execution with LuaJIT support and optimized Sol2 configuration.</p>
+                    <div class="card rounded-xl p-6">
+                        <div class="w-12 h-12 bg-dark-700 rounded-lg flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                            </svg>
                         </div>
-
-                        <div class="bg-slate-900 border border-slate-800 rounded-lg p-6">
-                            <div class="flex items-center mb-4">
-                                <div class="bg-green-500/10 rounded-lg p-3 mr-3">
-                                    <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
-                                    </svg>
-                                </div>
-                                <h3 class="text-lg font-semibold text-white">Smart Caching</h3>
-                            </div>
-                            <p class="text-slate-400 text-sm">MD5-based script validation with hot reload capabilities for faster development.</p>
-                        </div>
-
-                        <div class="bg-slate-900 border border-slate-800 rounded-lg p-6">
-                            <div class="flex items-center mb-4">
-                                <div class="bg-purple-500/10 rounded-lg p-3 mr-3">
-                                    <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                                    </svg>
-                                </div>
-                                <h3 class="text-lg font-semibold text-white">Multi-State</h3>
-                            </div>
-                            <p class="text-slate-400 text-sm">Global compiler with per-map instances for optimal resource management.</p>
-                        </div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Smart Caching</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">MD5-based script validation with hot reload capabilities for rapid development cycles.</p>
                     </div>
 
-                    <div class="mb-8">
-                        <h2 class="text-2xl font-bold text-white mb-6">API Classes</h2>
-                        <div id="classOverview" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <!-- Classes overview will be loaded here -->
+                    <div class="card rounded-xl p-6">
+                        <div class="w-12 h-12 bg-dark-700 rounded-lg flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Multi-State Architecture</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Global compiler with per-map instances for optimal resource management and isolation.</p>
+                    </div>
+                </div>
+
+                <!-- API Overview -->
+                <div class="mb-12">
+                    <h2 class="text-3xl font-bold text-white mb-8">API Documentation</h2>
+                    <div id="classOverview" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="animate-pulse card rounded-xl p-6">
+                            <div class="h-6 bg-dark-700 rounded mb-3"></div>
+                            <div class="h-4 bg-dark-700 rounded"></div>
+                        </div>
+                        <div class="animate-pulse card rounded-xl p-6">
+                            <div class="h-6 bg-dark-700 rounded mb-3"></div>
+                            <div class="h-4 bg-dark-700 rounded"></div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="bg-slate-900 border border-slate-800 rounded-lg p-6">
-                        <h2 class="text-xl font-semibold text-white mb-4">Quick Start</h2>
-                        <div class="prose">
-                            <pre><code>-- Your first Eclipse script
+                <!-- Quick Start -->
+                <div class="card rounded-xl p-8">
+                    <h2 class="text-2xl font-bold text-white mb-6">Quick Start Example</h2>
+                    <div class="content">
+                        <pre><code>-- Register a player login event
 RegisterPlayerEvent(PLAYER_EVENT_ON_LOGIN, function(event, player)
     player:SendBroadcastMessage("Welcome to Eclipse!")
-end)</code></pre>
-                        </div>
+    player:TeleportTo(0, -8949.95, -132.493, 83.5312, 0)
+end)
+
+-- Global state messaging
+SendStateMessage(-1, "player_count", #GetPlayers())</code></pre>
                     </div>
                 </div>
+            </div>
 
-                <!-- Dynamic Content -->
-                <div id="dynamicContent" class="hidden prose">
-                    <markdown-tag id="markdownRenderer"></markdown-tag>
-                </div>
+            <!-- Dynamic Content -->
+            <div id="dynamicContent" class="hidden content">
+                <div id="markdownContent"></div>
             </div>
         </main>
     </div>
@@ -287,86 +384,113 @@ end)</code></pre>
         let allMethods = [];
         let documentationData = {};
 
-        // Load documentation structure from file system
+        // Simple markdown parser - no external dependencies
+        function parseMarkdown(markdown) {
+            let html = markdown;
+            
+            // Headers
+            html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+            html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+            html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+            
+            // Code blocks
+            html = html.replace(/```([\s\S]*?)```/gim, '<pre><code>$1</code></pre>');
+            
+            // Inline code
+            html = html.replace(/`([^`]+)`/gim, '<code>$1</code>');
+            
+            // Tables - basic support
+            html = html.replace(/\|(.+)\|/g, function(match, content) {
+                const cells = content.split('|').map(cell => cell.trim());
+                const isHeader = content.includes('---');
+                if (isHeader) return '<tr>' + cells.map(() => '<th></th>').join('') + '</tr>';
+                return '<tr>' + cells.map(cell => `<td>${cell}</td>`).join('') + '</tr>';
+            });
+            
+            // Bold
+            html = html.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>');
+            
+            // Italic
+            html = html.replace(/\*(.*?)\*/gim, '<em>$1</em>');
+            
+            // Links
+            html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2">$1</a>');
+            
+            // Line breaks
+            html = html.replace(/\n\n/gim, '</p><p>');
+            html = '<p>' + html + '</p>';
+            
+            // Lists
+            html = html.replace(/^\- (.+)$/gim, '<li>$1</li>');
+            html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+            
+            return html;
+        }
+
+        // Load documentation structure from GitHub Pages
         async function loadDocumentationStructure() {
             try {
-                // Load main index to get available classes
-                const mainIndexResponse = await fetch('./index.md');
-                const mainIndexContent = await mainIndexResponse.text();
+                // On GitHub Pages, .md files are converted to .html
+                const indexPath = window.location.pathname.endsWith('/') ? 'index.html' : './index.html';
+                const response = await fetch(indexPath);
                 
-                // Parse classes from main index
-                const classMatches = mainIndexContent.match(/- \[(.*?)\]\((.*?)\) \((\d+) methods\)/g);
+                if (!response.ok) {
+                    throw new Error('Could not load index');
+                }
                 
-                if (classMatches) {
-                    for (const match of classMatches) {
-                        const parts = match.match(/- \[(.*?)\]\((.*?)\) \((\d+) methods\)/);
-                        if (!parts) continue;
-                        
-                        const className = parts[1];
-                        const path = parts[2];
-                        const methodCount = parts[3];
-                        
-                        // Load class index
+                const content = await response.text();
+                
+                // Parse HTML content to extract class information
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(content, 'text/html');
+                
+                // Look for links to class documentation
+                const classLinks = doc.querySelectorAll('a[href*="/index.html"], a[href*="index.md"]');
+                
+                for (const link of classLinks) {
+                    const href = link.getAttribute('href');
+                    const className = link.textContent.trim();
+                    const methodCountMatch = link.parentElement.textContent.match(/\((\d+) methods\)/);
+                    const methodCount = methodCountMatch ? parseInt(methodCountMatch[1]) : 0;
+                    
+                    if (className && href) {
                         try {
-                            const classIndexResponse = await fetch(path);
-                            const classIndexContent = await classIndexResponse.text();
+                            // Load class index
+                            const classResponse = await fetch(href.replace('.md', '.html'));
+                            const classContent = await classResponse.text();
+                            const classDoc = parser.parseFromString(classContent, 'text/html');
                             
-                            // Parse methods from class index
+                            // Extract methods from the class page
                             const methods = {};
-                            const methodMatches = classIndexContent.match(/\| \[(.*?)\]\((.*?)\) \| (.*?) \|/g);
+                            const methodLinks = classDoc.querySelectorAll('a[href$=".html"], a[href$=".md"]');
                             
-                            if (methodMatches) {
-                                for (const methodMatch of methodMatches) {
-                                    const methodParts = methodMatch.match(/\| \[(.*?)\]\((.*?)\) \| (.*?) \|/);
-                                    if (!methodParts) continue;
+                            for (const methodLink of methodLinks) {
+                                const methodName = methodLink.textContent.trim();
+                                const methodHref = methodLink.getAttribute('href');
+                                
+                                if (methodName && methodHref && !methodHref.includes('index')) {
+                                    methods[methodName] = {
+                                        signature: methodName + '()',
+                                        description: 'Eclipse Lua method',
+                                        path: methodHref.replace('.md', '.html'),
+                                        content: `# ${methodName}\n\nEclipse Lua method documentation.`
+                                    };
                                     
-                                    const methodName = methodParts[1];
-                                    const methodPath = methodParts[2];
-                                    const description = methodParts[3];
-                                    
-                                    // Extract signature from method file
-                                    try {
-                                        const methodResponse = await fetch(path.replace('index.md', methodPath));
-                                        const methodContent = await methodResponse.text();
-                                        
-                                        // Extract signature from method content
-                                        const signatureMatch = methodContent.match(/```cpp\n(.*?)\n```/s);
-                                        let signature = '';
-                                        if (signatureMatch) {
-                                            signature = signatureMatch[1].trim();
-                                            // Clean up signature for display
-                                            const cleanSig = signature.match(/(\w+)\s*\((.*?)\)/);
-                                            if (cleanSig) {
-                                                signature = cleanSig[1] + '(' + cleanSig[2] + ')';
-                                            }
-                                        }
-                                        
-                                        methods[methodName] = {
-                                            signature: signature,
-                                            description: description,
-                                            path: path.replace('index.md', methodPath),
-                                            content: methodContent
-                                        };
-                                        
-                                        // Add to search data
-                                        allMethods.push({
-                                            className: className,
-                                            methodName: methodName,
-                                            signature: signature,
-                                            description: description,
-                                            searchText: className + ':' + methodName + '(' + signature + ')'.toLowerCase()
-                                        });
-                                    } catch (e) {
-                                        console.warn('Could not load method ' + methodName + ':', e);
-                                    }
+                                    allMethods.push({
+                                        className: className,
+                                        methodName: methodName,
+                                        signature: methodName + '()',
+                                        description: 'Eclipse Lua method',
+                                        searchText: (className + ':' + methodName).toLowerCase()
+                                    });
                                 }
                             }
                             
                             documentationData[className] = {
-                                methodCount: parseInt(methodCount),
-                                indexContent: classIndexContent,
+                                methodCount: methodCount,
+                                indexContent: `# ${className} Methods\n\nDocumentation for ${className} class methods.`,
                                 methods: methods,
-                                indexPath: path
+                                indexPath: href
                             };
                         } catch (e) {
                             console.warn('Could not load class ' + className + ':', e);
@@ -374,303 +498,40 @@ end)</code></pre>
                     }
                 }
                 
-                // Populate UI
                 populateClassList();
                 populateClassOverview();
                 
             } catch (error) {
                 console.error('Error loading documentation structure:', error);
-                // Fallback to mock data if files aren't available
-                loadMockData();
+                // Show error message
+                document.getElementById('classItems').innerHTML = '<div class="text-red-400 text-sm">Unable to load documentation. Please check that files are accessible.</div>';
+                document.getElementById('classOverview').innerHTML = '<div class="card rounded-xl p-6"><div class="text-red-400">Documentation could not be loaded. This may be because the files are not yet available or the site is still deploying.</div></div>';
             }
-        }
-
-        // Fallback mock data
-        function loadMockData() {
-            documentationData = {
-                Player: {
-                    methodCount: 155,
-                    indexContent: `# Player Methods
-
-This page contains all available methods for the \`Player\` class in Eclipse Lua scripting.
-
-## Available Methods
-
-| Method | Description |
-|--------|-------------|
-| [TeleportTo](./teleportto.md) | Teleports player to a specific location |
-| [GetLevel](./getlevel.md) | Gets the player's current level |
-| [SetLevel](./setlevel.md) | Sets the player's level |
-| [GetHealth](./gethealth.md) | Gets the player's current health |
-| [SetHealth](./sethealth.md) | Sets the player's health |`,
-                    methods: {
-                        TeleportTo: {
-                            signature: 'TeleportTo(mapId, x, y, z, orientation, options, target, forced)',
-                            description: 'Teleports player to a specific location',
-                            content: `# TeleportTo
-
-Teleports the player to a specific location with various options.
-
-## Signature
-
-\`\`\`cpp
-bool TeleportTo(uint32 mapId, float x, float y, float z, float orientation, uint32 options, Unit* target, bool forced)
-\`\`\`
-
-## Parameters
-
-- \`uint32 mapId\` - The map ID to teleport to
-- \`float x\` - X coordinate
-- \`float y\` - Y coordinate  
-- \`float z\` - Z coordinate
-- \`float orientation\` - Player orientation
-- \`uint32 options\` - Teleportation flags (optional)
-- \`Unit* target\` - Target for spell-based teleports (optional)
-- \`bool forced\` - Force teleport even if conditions aren't met
-
-## Returns
-
-**bool success** - true if the player was teleported
-
-## Examples
-
-\`\`\`lua
--- Basic teleportation
-player:TeleportTo(0, -8949.95, -132.493, 83.5312, 0)
-
--- Teleport with options
-player:TeleportTo(1, 1644.52, -4219.67, 56.33, 0, TELE_TO_NOT_LEAVE_COMBAT)
-\`\`\``
-                        },
-                        GetLevel: {
-                            signature: 'GetLevel()',
-                            description: 'Gets the player\'s current level',
-                            content: `# GetLevel
-
-Gets the player's current level.
-
-## Signature
-
-\`\`\`cpp
-uint8 GetLevel()
-\`\`\`
-
-## Returns
-
-**uint8** - The player's current level
-
-## Examples
-
-\`\`\`lua
-local level = player:GetLevel()
-print("Player level: " .. level)
-\`\`\``
-                        },
-                        SetLevel: {
-                            signature: 'SetLevel(level)',
-                            description: 'Sets the player\'s level',
-                            content: `# SetLevel
-
-Sets the player's level.
-
-## Signature
-
-\`\`\`cpp
-void SetLevel(uint8 level)
-\`\`\`
-
-## Parameters
-
-- \`uint8 level\` - The level to set
-
-## Examples
-
-\`\`\`lua
--- Set player to level 80
-player:SetLevel(80)
-\`\`\``
-                        },
-                        GetHealth: {
-                            signature: 'GetHealth()',
-                            description: 'Gets the player\'s current health',
-                            content: `# GetHealth
-
-Gets the player's current health.
-
-## Signature
-
-\`\`\`cpp
-uint32 GetHealth()
-\`\`\`
-
-## Returns
-
-**uint32** - The player's current health
-
-## Examples
-
-\`\`\`lua
-local health = player:GetHealth()
-print("Player health: " .. health)
-\`\`\``
-                        },
-                        SetHealth: {
-                            signature: 'SetHealth(health)',
-                            description: 'Sets the player\'s health',
-                            content: `# SetHealth
-
-Sets the player's health.
-
-## Signature
-
-\`\`\`cpp
-void SetHealth(uint32 health)
-\`\`\`
-
-## Parameters
-
-- \`uint32 health\` - The health value to set
-
-## Examples
-
-\`\`\`lua
--- Set full health
-player:SetHealth(player:GetMaxHealth())
-\`\`\``
-                        }
-                    }
-                },
-                Global: {
-                    methodCount: 20,
-                    indexContent: `# Global Methods
-
-This page contains all available global methods in Eclipse Lua scripting.
-
-## Available Methods
-
-| Method | Description |
-|--------|-------------|
-| [RegisterPlayerEvent](./registerplayerevent.md) | Register a callback for player events |
-| [SendStateMessage](./sendstatemessage.md) | Send a message between states |
-| [GetPlayers](./getplayers.md) | Get all online players |`,
-                    methods: {
-                        RegisterPlayerEvent: {
-                            signature: 'RegisterPlayerEvent(eventId, callback)',
-                            description: 'Register a callback for player events',
-                            content: `# RegisterPlayerEvent
-
-Register a callback function for a specific player event.
-
-## Signature
-
-\`\`\`cpp
-void RegisterPlayerEvent(uint32 eventId, sol::function callback)
-\`\`\`
-
-## Parameters
-
-- \`uint32 eventId\` - The player event ID to register for
-- \`function callback\` - The Lua function to call when event triggers
-
-## Examples
-
-\`\`\`lua
-local function OnPlayerLogin(event, player)
-    player:SendBroadcastMessage("Welcome to Eclipse!")
-end
-
-RegisterPlayerEvent(PLAYER_EVENT_ON_LOGIN, OnPlayerLogin)
-\`\`\``
-                        },
-                        SendStateMessage: {
-                            signature: 'SendStateMessage(toStateId, messageType, data)',
-                            description: 'Send a message between states',
-                            content: `# SendStateMessage
-
-Send a message between different Lua states.
-
-## Signature
-
-\`\`\`cpp
-void SendStateMessage(int32 toStateId, const std::string& messageType, sol::object data)
-\`\`\`
-
-## Parameters
-
-- \`int32 toStateId\` - Target state ID (-1 for global)
-- \`string messageType\` - Type of message
-- \`any data\` - Data to send
-
-## Examples
-
-\`\`\`lua
--- Send message to global state
-SendStateMessage(-1, "player_count", GetOnlinePlayerCount())
-\`\`\``
-                        },
-                        GetPlayers: {
-                            signature: 'GetPlayers()',
-                            description: 'Get all online players',
-                            content: `# GetPlayers
-
-Get a table of all online players.
-
-## Signature
-
-\`\`\`cpp
-sol::table GetPlayers()
-\`\`\`
-
-## Returns
-
-**table** - Array of Player objects
-
-## Examples
-
-\`\`\`lua
-local players = GetPlayers()
-for i, player in ipairs(players) do
-    print("Player: " .. player:GetName())
-end
-\`\`\``
-                        }
-                    }
-                }
-            };
-            
-            // Populate search data
-            Object.keys(documentationData).forEach(function(className) {
-                const classData = documentationData[className];
-                Object.keys(classData.methods).forEach(function(methodName) {
-                    const method = classData.methods[methodName];
-                    allMethods.push({
-                        className: className,
-                        methodName: methodName,
-                        signature: method.signature,
-                        description: method.description,
-                        searchText: (className + ':' + methodName + '(' + method.signature + ')').toLowerCase()
-                    });
-                });
-            });
-            
-            populateClassList();
-            populateClassOverview();
         }
 
         function populateClassList() {
             const classItems = document.getElementById('classItems');
+            if (Object.keys(documentationData).length === 0) {
+                classItems.innerHTML = '<div class="text-gray-500 text-sm">No classes found</div>';
+                return;
+            }
+            
             const classesHtml = Object.keys(documentationData).map(function(className) {
-                const classData = documentationData[className];
-                return '<button onclick="loadClass(\'' + className + '\')" class="w-full text-left px-3 py-2 text-sm rounded-md hover:bg-slate-800 text-slate-300 hover:text-white transition-colors">' + className + '</button>';
+                return '<button onclick="loadClass(\'' + className + '\')" class="w-full text-left nav-item px-4 py-3 rounded-lg text-gray-300 hover:text-white transition-colors">' + className + '</button>';
             }).join('');
             classItems.innerHTML = classesHtml;
         }
 
         function populateClassOverview() {
             const classOverview = document.getElementById('classOverview');
+            if (Object.keys(documentationData).length === 0) {
+                classOverview.innerHTML = '<div class="card rounded-xl p-6"><div class="text-gray-500">No documentation available</div></div>';
+                return;
+            }
+            
             const overviewHtml = Object.keys(documentationData).map(function(className) {
                 const classData = documentationData[className];
-                return '<button onclick="loadClass(\'' + className + '\')" class="text-left p-6 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors group"><div class="text-lg font-semibold text-white group-hover:text-blue-400 transition-colors">' + className + '</div><div class="text-slate-400 text-sm mt-1">' + classData.methodCount + ' methods available</div></button>';
+                return '<button onclick="loadClass(\'' + className + '\')" class="text-left card rounded-xl p-6 hover:scale-105 transition-transform"><div class="text-xl font-bold text-white mb-2">' + className + '</div><div class="text-gray-400">' + classData.methodCount + ' methods available</div></button>';
             }).join('');
             classOverview.innerHTML = overviewHtml;
         }
@@ -689,25 +550,25 @@ end
                 }
 
                 const filteredMethods = allMethods.filter(function(method) {
-                    return method.methodName.toLowerCase().startsWith(query) ||
+                    return method.methodName.toLowerCase().includes(query) ||
                            method.searchText.includes(query) ||
-                           method.description.toLowerCase().includes(query);
+                           method.className.toLowerCase().includes(query);
                 });
 
                 if (filteredMethods.length === 0) {
-                    searchResults.classList.add('hidden');
+                    searchResults.innerHTML = '<div class="p-4 text-gray-500 text-sm">No methods found</div>';
+                    searchResults.classList.remove('hidden');
                     return;
                 }
 
                 const resultsHtml = filteredMethods.slice(0, 8).map(function(method) {
-                    return '<button onclick="selectSearchResult(\'' + method.className + '\', \'' + method.methodName + '\')" class="w-full text-left p-3 hover:bg-slate-800 border-b border-slate-800 last:border-b-0 transition-colors"><div class="text-white font-mono text-sm">' + method.className + ':' + method.methodName + '</div><div class="text-slate-400 text-xs mt-1">' + method.description + '</div></button>';
+                    return '<button onclick="selectSearchResult(\'' + method.className + '\', \'' + method.methodName + '\')" class="w-full text-left p-4 hover:bg-dark-800 border-b border-dark-700 last:border-b-0 transition-colors"><div class="text-white font-mono text-sm">' + method.className + ':' + method.methodName + '</div><div class="text-gray-400 text-xs mt-1">' + method.description + '</div></button>';
                 }).join('');
 
                 searchResults.innerHTML = resultsHtml;
                 searchResults.classList.remove('hidden');
             });
 
-            // Hide search results when clicking outside
             document.addEventListener('click', function(e) {
                 if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
                     searchResults.classList.add('hidden');
@@ -728,31 +589,32 @@ end
             document.getElementById('backButton').classList.add('hidden');
             document.getElementById('homeContent').classList.remove('hidden');
             document.getElementById('dynamicContent').classList.add('hidden');
+            
+            // Remove active states
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
         }
 
         function loadClass(className) {
             currentClass = className;
             
-            // Hide class list, show method list
             document.getElementById('classesList').classList.add('hidden');
             document.getElementById('methodsList').classList.remove('hidden');
             document.getElementById('backButton').classList.remove('hidden');
             
-            // Update method list title
             document.getElementById('methodsTitle').textContent = className + ' Methods';
             
-            // Populate method list
             const methodItems = document.getElementById('methodItems');
             const classData = documentationData[className];
             
             if (classData && classData.methods) {
                 const methodsHtml = Object.keys(classData.methods).map(function(methodName) {
-                    return '<button onclick="loadMethod(\'' + className + '\', \'' + methodName + '\')" class="w-full text-left px-3 py-2 text-sm rounded-md hover:bg-slate-800 text-slate-300 hover:text-white transition-colors">' + methodName + '</button>';
+                    return '<button onclick="loadMethod(\'' + className + '\', \'' + methodName + '\')" class="w-full text-left nav-item px-4 py-3 rounded-lg text-gray-300 hover:text-white transition-colors">' + methodName + '</button>';
                 }).join('');
                 methodItems.innerHTML = methodsHtml;
+            } else {
+                methodItems.innerHTML = '<div class="text-gray-500 text-sm p-4">No methods found</div>';
             }
             
-            // Load class index
             loadClassIndex(className);
         }
 
@@ -764,7 +626,6 @@ end
         }
 
         function loadMethod(className, methodName) {
-            // Make sure we're showing the correct class methods
             if (currentClass !== className) {
                 loadClass(className);
             }
@@ -773,6 +634,10 @@ end
             if (classData && classData.methods && classData.methods[methodName]) {
                 const method = classData.methods[methodName];
                 showContent(method.content);
+                
+                // Set active state
+                document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+                event.target.classList.add('active');
             }
         }
 
@@ -780,12 +645,11 @@ end
             document.getElementById('homeContent').classList.add('hidden');
             document.getElementById('dynamicContent').classList.remove('hidden');
             
-            // Use marked.js to render markdown content
             const markdownRenderer = document.getElementById('markdownContent');
-            markdownRenderer.innerHTML = marked.parse(markdownContent);
+            markdownRenderer.innerHTML = parseMarkdown(markdownContent);
         }
 
-        // Initialize everything
+        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             setupSearch();
             loadDocumentationStructure();
