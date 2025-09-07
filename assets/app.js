@@ -24,15 +24,11 @@ class EclipseDocumentationApp {
      * Initialize application
      */
     async init() {
-        console.log('Eclipse Documentation UI starting...');
-
         try {
             this.cacheElements();
             this.setupEventListeners();
             await this.loadDocumentationStructure();
             this.setupSearch();
-
-            console.log('Eclipse Documentation UI ready!');
         } catch (error) {
             console.error('Failed to initialize Eclipse Documentation UI:', error);
             this.showError('Failed to load documentation. Please try refreshing the page.');
@@ -99,7 +95,6 @@ class EclipseDocumentationApp {
             }
 
             const mainIndexContent = await response.text();
-            console.log('Loaded index.md:', mainIndexContent.substring(0, 200) + '...');
 
             const classMatches = mainIndexContent.match(/- \[(.*?)\]\((.*?)\) \((\d+) methods\)/g);
 
@@ -107,14 +102,9 @@ class EclipseDocumentationApp {
                 throw new Error('No class matches found in index.md');
             }
 
-            console.log('Found classes:', classMatches);
-
             // Load each class in parallel for better performance
             const classPromises = classMatches.map(match => this.loadClassData(match));
             await Promise.all(classPromises);
-
-            console.log('Documentation data loaded:', this.state.documentationData);
-            console.log('All methods indexed:', this.state.allMethods);
 
             this.renderClassesOverview();
             this.renderClassesSidebar();
@@ -133,7 +123,6 @@ class EclipseDocumentationApp {
         if (!parts) return;
         
         const [, className, path, methodCount] = parts;
-        console.log(`Loading class: ${className} from ${path}`);
         
         try {
             const classIndexResponse = await fetch(path);
@@ -144,7 +133,6 @@ class EclipseDocumentationApp {
             }
             
             const classIndexContent = await classIndexResponse.text();
-            console.log(`Loaded ${className} index:`, classIndexContent.substring(0, 200) + '...');
             
             const methods = {};
             const methodMatches = classIndexContent.match(/\| \[(.*?)\]\((.*?)\) \| (.*?) \|/g);
@@ -190,9 +178,7 @@ class EclipseDocumentationApp {
     /**
      * Fallback structure detection
      */
-    async loadFallbackStructure() {
-        console.log('Using fallback structure detection...');
-        
+    async loadFallbackStructure() {       
         const knownClasses = ['Player', 'Creature', 'GameObject', 'Item', 'Global'];
         
         const classPromises = knownClasses.map(async className => {
@@ -362,9 +348,7 @@ class EclipseDocumentationApp {
      * Show documentation for a specific method
      */
     async showMethodDocumentation(path, methodName, clickedElement = null) {
-        try {
-            console.log(`Loading documentation for: ${methodName} at ${path}`);
-            
+        try {            
             this.state.navigationState = 'method';
             
             // Check cache first
@@ -418,9 +402,7 @@ class EclipseDocumentationApp {
     /**
      * Handle internal link navigation
      */
-    handleInternalLink(url) {
-        console.log('Navigating to internal link:', url);
-        
+    handleInternalLink(url) {        
         if (url === './index.md') {
             if (this.state.currentClass && this.state.documentationData[this.state.currentClass]) {
                 this.showClassOverview(this.state.currentClass, this.state.documentationData[this.state.currentClass]);
@@ -429,20 +411,17 @@ class EclipseDocumentationApp {
             const parts = url.split('/');
             if (parts.length >= 2) {
                 const className = parts[1];
-                console.log('Trying to navigate to class:', className);
                 
                 if (this.state.documentationData[className]) {
-                    console.log('Found class data, showing methods');
                     this.showClassMethods(className);
                 } else {
                     const foundClass = Object.keys(this.state.documentationData).find(key => 
                         key.toLowerCase() === className.toLowerCase()
                     );
                     if (foundClass) {
-                        console.log('Found class with different casing:', foundClass);
                         this.showClassMethods(foundClass);
                     } else {
-                        console.log('Class not available in current documentation');
+                        console.error('Class not available in current documentation');
                     }
                 }
             }
@@ -464,11 +443,9 @@ class EclipseDocumentationApp {
      * Go back navigation
      */
     goBack() {
-        console.log('goBack called, current navigationState:', this.state.navigationState);
         
         if (this.state.navigationState === 'method') {
             if (this.state.currentClass && this.state.documentationData[this.state.currentClass]) {
-                console.log('Going back from method to class overview:', this.state.currentClass);
                 this.showClassOverview(this.state.currentClass, this.state.documentationData[this.state.currentClass]);
                 this.state.navigationState = 'class';
                 
@@ -477,7 +454,6 @@ class EclipseDocumentationApp {
                 });
             }
         } else if (this.state.navigationState === 'class') {
-            console.log('Going back from class to home');
             this.state.currentClass = null;
             this.state.navigationState = 'home';
             
@@ -491,7 +467,6 @@ class EclipseDocumentationApp {
                 item.classList.remove('active');
             });
         } else {
-            console.log('Fallback - going to home');
             this.state.currentClass = null;
             this.state.navigationState = 'home';
             
